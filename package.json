@@ -1,0 +1,47 @@
+{
+  "name": "123pancli",
+  "version": "0.1.0",
+  "description": "A Node.js CLI and Ink TUI for 123Pan.",
+  "type": "module",
+  "bin": {
+    "pan123": "./dist/cli.js"
+  },
+  "files": [
+    "dist",
+    "README.md"
+  ],
+  "scripts": {
+    "build": "tsup",
+    "dev": "tsx src/cli.tsx",
+    "prepack": "pnpm run build",
+    "test": "vitest run",
+    "typecheck": "tsc --noEmit"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "dependencies": {
+    "chest123-pan-sdk": "^0.1.6",
+    "commander": "^14.0.2",
+    "ink": "^6.5.1",
+    "ink-text-input": "^6.0.0",
+    "react": "^19.2.1",
+    "zod": "^4.1.13"
+  },
+  "devDependencies": {
+    "@types/node": "^24.10.1",
+    "@types/react": "^19.2.7",
+    "tsup": "^8.5.1",
+    "tsx": "^4.21.0",
+    "typescript": "^5.9.3",
+    "vitest": "^4.0.14"
+  },
+  "keywords": [
+    "123pan",
+    "123yunpan",
+    "cli",
+    "tui",
+    "cloud-storage"
+  ],
+  "license": "MIT"
+}
