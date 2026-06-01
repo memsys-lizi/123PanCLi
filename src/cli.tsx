@@ -36,12 +36,14 @@ function globalOptions(localOptions: Record<string, unknown> = {}): GlobalOption
     ...localOptions
   } as {
     json?: boolean;
+    progressJson?: boolean;
     authClientId?: string;
     authClientSecret?: string;
     baseUrl?: string;
   };
   return {
     json: options.json,
+    progressJson: options.progressJson,
     clientId: options.authClientId,
     clientSecret: options.authClientSecret,
     baseURL: options.baseUrl
@@ -55,6 +57,7 @@ program
   .description('123Pan CLI and TUI')
   .version('0.1.0')
   .option('--json', 'print stable JSON output')
+  .option('--progress-json', 'print progress events as JSON Lines to stderr')
   .option('--auth-client-id <id>', 'temporarily override clientId')
   .option('--auth-client-secret <secret>', 'temporarily override clientSecret')
   .option('--base-url <url>', 'temporarily override API base URL')

@@ -2,7 +2,7 @@ import path from 'node:path';
 import { createClient } from './client.js';
 import { readConfig, resolveDownloadDir, type ConfigOverrides } from './config.js';
 import { downloadToFile, resolveDownloadOutput } from './download.js';
-import { printSuccess, type OutputOptions } from './output.js';
+import { printProgress, printSuccess, type OutputOptions } from './output.js';
 import { addTask } from './tasks.js';
 
 export interface GlobalOptions extends ConfigOverrides, OutputOptions {}
@@ -42,12 +42,13 @@ export async function uploadFile(
     filename: options.name,
     duplicate: options.overwrite ? 2 : 1,
     onProgress: event => {
-      if (!options.json) {
-        process.stderr.write(`\r${event.stage} ${event.percent.toFixed(1)}%`);
+      printProgress({ command: 'upload', ...event }, options);
+      if (!options.json && !options.progressJson) {
+        process.stderr.write(`\r上传阶段 ${event.stage} ${event.percent.toFixed(1)}%`);
       }
     }
   });
-  if (!options.json) process.stderr.write('\n');
+  if (!options.json && !options.progressJson) process.stderr.write('\n');
   await addTask({ type: 'upload', status: 'success', title: `上传 ${path.basename(filePath)}`, data: result });
   printSuccess(result, options);
 }
@@ -63,7 +64,14 @@ export async function downloadFile(fileId: number, options: GlobalOptions & { ou
     filename: detail.filename,
     fileId
   });
-  const result = await downloadToFile(info.downloadUrl, outputPath);
+  const result = await downloadToFile(info.downloadUrl, outputPath, event => {
+    printProgress({ command: 'download', ...event }, options);
+    if (!options.json && !options.progressJson) {
+      const percent = event.percent === undefined ? `${event.loadedBytes} bytes` : `${event.percent.toFixed(1)}%`;
+      process.stderr.write(`\r正在下载 ${percent}`);
+    }
+  });
+  if (!options.json && !options.progressJson) process.stderr.write('\n');
   await addTask({ type: 'download', status: 'success', title: `下载 ${detail.filename ?? fileId}`, data: result });
   printSuccess(result, options);
 }

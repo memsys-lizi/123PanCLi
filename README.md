@@ -61,6 +61,15 @@ Most commands support `--json` for project integration:
 pan123 upload ./dist/app.zip --parent 0 --json
 ```
 
+Use `--progress-json` when another project needs progress events. Progress is written to stderr as JSON Lines, while the final result stays on stdout:
+
+```bash
+pan123 --json --progress-json download 123456 --out ./downloads
+pan123 --json --progress-json upload ./dist/app.zip --parent 0
+```
+
+Download progress is byte-level when the server provides a content length. Upload progress comes from `chest123-pan-sdk`: hashing and multipart uploads report phase/slice progress, but small single-upload requests do not currently expose byte-level network progress.
+
 Success output:
 
 ```json

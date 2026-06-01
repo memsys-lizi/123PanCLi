@@ -2,6 +2,13 @@ import { normalizeError } from './client.js';
 
 export interface OutputOptions {
   json?: boolean;
+  progressJson?: boolean;
+}
+
+export function printProgress(event: Record<string, unknown>, options: OutputOptions = {}): void {
+  if (options.progressJson) {
+    process.stderr.write(`${JSON.stringify({ ok: true, type: 'progress', ...event })}\n`);
+  }
 }
 
 export function printSuccess(data: unknown, options: OutputOptions = {}): void {

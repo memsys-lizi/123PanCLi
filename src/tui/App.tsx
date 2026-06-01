@@ -3,6 +3,7 @@ import { Box, Text } from 'ink';
 import { ConfigMissingError, readConfig, type ConfigOverrides, type Pan123CliConfig } from '../config.js';
 import { SetupWizard } from './SetupWizard.js';
 import { FileBrowser } from './FileBrowser.js';
+import { Panel, Shell, SpinnerText } from './ui.js';
 
 export interface AppProps {
   forceSetup?: boolean;
@@ -32,7 +33,13 @@ export function App({ forceSetup = false, overrides = {} }: AppProps) {
   }, [forceSetup, overrides.clientId, overrides.clientSecret, overrides.baseURL]);
 
   if (status === 'loading') {
-    return <Text color="cyan">Loading pan123...</Text>;
+    return (
+      <Shell subtitle="正在启动">
+        <Panel title="加载中" minHeight={5}>
+          <SpinnerText label="正在读取 ~/.123pancli/config.json" />
+        </Panel>
+      </Shell>
+    );
   }
 
   if (status === 'setup') {
@@ -48,10 +55,11 @@ export function App({ forceSetup = false, overrides = {} }: AppProps) {
 
   if (status === 'error') {
     return (
-      <Box flexDirection="column">
-        <Text color="red">Failed to start pan123</Text>
-        <Text>{error}</Text>
-      </Box>
+      <Shell subtitle="启动失败">
+        <Panel title="✕ 启动错误" color="red">
+          <Text>{error}</Text>
+        </Panel>
+      </Shell>
     );
   }
 
