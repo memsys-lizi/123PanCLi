@@ -12,7 +12,10 @@ export const ConfigSchema = z.object({
   clientSecret: z.string().min(1),
   baseURL: z.string().url().default(DEFAULT_BASE_URL),
   defaultParentFileId: z.coerce.number().int().nonnegative().default(0),
-  downloadDir: z.string().min(1).default(DEFAULT_DOWNLOAD_DIR)
+  downloadDir: z.string().min(1).default(DEFAULT_DOWNLOAD_DIR),
+  requestTimeout: z.coerce.number().int().positive().default(300000), // 5 minutes
+  uploadTimeout: z.coerce.number().int().positive().default(1200000), // 20 minutes
+  downloadTimeout: z.coerce.number().int().positive().default(1200000) // 20 minutes
 });
 
 export type Pan123CliConfig = z.infer<typeof ConfigSchema>;

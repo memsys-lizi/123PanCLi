@@ -1,6 +1,6 @@
 {
   "name": "123pancli",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "A Node.js CLI and Ink TUI for 123Pan.",
   "type": "module",
   "bin": {
@@ -21,7 +21,6 @@
     "node": ">=18"
   },
   "dependencies": {
-    "chest123-pan-sdk": "^0.1.6",
     "commander": "^14.0.2",
     "ink": "^6.5.1",
     "ink-text-input": "^6.0.0",

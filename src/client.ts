@@ -1,11 +1,14 @@
-import { createPan123Client, Pan123ApiError } from 'chest123-pan-sdk';
+import { createPan123Client, Pan123ApiError } from './api/index.js';
 import type { Pan123CliConfig } from './config.js';
 
 export function createClient(config: Pan123CliConfig) {
   return createPan123Client({
     clientId: config.clientId,
     clientSecret: config.clientSecret,
-    baseURL: config.baseURL
+    baseURL: config.baseURL,
+    requestTimeout: config.requestTimeout,
+    uploadTimeout: config.uploadTimeout,
+    downloadTimeout: config.downloadTimeout
   });
 }
 

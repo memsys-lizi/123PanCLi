@@ -1,5 +1,5 @@
 import { afterEach, describe, expect, it, vi } from 'vitest';
-import { Pan123ApiError } from 'chest123-pan-sdk';
+import { Pan123ApiError } from '../src/api/errors.js';
 import { printError, printSuccess } from '../src/output.js';
 
 afterEach(() => {
